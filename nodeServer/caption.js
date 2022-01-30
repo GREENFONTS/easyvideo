@@ -1,7 +1,9 @@
 
 function captionFilter(data, word){
+    console.log(word)
     let captions = data
     let filtered_captions = []
+    if(captions != undefined){
     captions.filter(caption => {
         if(caption.tStart == 0){
             caption.text = ""
@@ -16,6 +18,7 @@ function captionFilter(data, word){
     else{
         return filtered_captions
     }
+}
 }
 
 module.exports = captionFilter;

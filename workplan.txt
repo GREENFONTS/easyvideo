@@ -1,0 +1,17 @@
+Aim: create a webapp that can play youtube videos and search for words in the video and indicate the area which the word is located
+
+Task:
+set up of packages react and redux....
+play youtube videos or any video from the app
+set up the process with redux
+get youtube captions or transcript
+find a sppech to text translator if no captio is found
+collect changing input from user and find the location in the video
+design the website fully and launch
+write an article on it 
+publish in social media and groups
+update as a project in cv
+
+
+ytp-fullerscreen-edu-button ytp-button for captions button
+

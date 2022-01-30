@@ -27,10 +27,11 @@ app.post('/', async (req, res) => {
 })
 app.get('/:id', async (req, res) => {
   let word = req.params.id
-  console.log(word)
+
   try{
     let captions = await captionFilter(result, word)
-    res.send({data: captions});
+    console.log(captions)
+    res.send(captions);
   }
   catch(err) {
     throw err
