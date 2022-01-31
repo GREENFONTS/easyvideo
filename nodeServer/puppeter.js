@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer');
 const fetch = require('node-fetch');
+const fs = require('fs')
 
 let global_browser = false
 async function func(url){
@@ -40,8 +41,10 @@ async function func(url){
             }
             captions_data.push(word)
         });
-       
-        
+        let datas = JSON.stringify(captions_data)
+        fs.appendFile('largeTimeFrame.json', datas,  (err) => {
+            console.log(err);
+        })
         return captions_data
     }
     catch(err){

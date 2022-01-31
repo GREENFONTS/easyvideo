@@ -15,3 +15,12 @@ update as a project in cv
 
 ytp-fullerscreen-edu-button ytp-button for captions button
 
+
+https://www.youtube.com/api/timedtext?v=z7ikpQCWbtQ&asr_langs=de%2Cen%2Ces%2Cfr%2Cid%2Cit%2Cja%2Cko%2Cnl%2Cpt%2Cru%2Ctr%2Cvi&caps=asr&
+exp=xftt%2Cxctw&xoaf=5&hl=en&ip=0.0.0.0&ipbits=0&expire=1643664433&sparams=ip%2Cipbits%2Cexpire%2Cv%2Casr_langs%2Ccaps%2Cexp%2Cxoaf&signature=
+5CC806AF858D8E44D7D895338469FD741415827F.0F167FA760E37DEF8837C36E5CC4D1713B72BE91&key=yt8&kind=asr&lang=en&fmt=json3&xorb=2&xobt=3&xovt=3
+
+
+https://www.youtube.com/api/timedtext?v=Sag-Hz9jJNg&asr_langs=de%2Cen%2Ces%2Cfr%2Cid%2Cit%2Cja%2Cko%2Cnl%2Cpt%2Cru%2Ctr%2Cvi&caps=asr
+&exp=xftt%2Cxctw&xoaf=5&hl=en&ip=0.0.0.0&ipbits=0&expire=1643664524&sparams=ip%2Cipbits%2Cexpire%2Cv%2Casr_langs%2Ccaps%2Cexp%2Cxoaf&signature=
+3D8E0162659940002424AFEE2E7B80069393235C.C9813DEE6432627989B4AF27A14B290AB65B2359&key=yt8&kind=asr&lang=en&fmt=json3&xorb=2&xobt=3&xovt=3
