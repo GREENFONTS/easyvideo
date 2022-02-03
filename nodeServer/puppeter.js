@@ -1,18 +1,16 @@
 const puppeteer = require('puppeteer');
 const fetch = require('node-fetch');
-const fs = require('fs')
+const fs = require('fs');
+const captionFilter = require('./caption');
 
 let global_browser = false
-async function func(url){
+async function func(id){
     let captionUrl = ''
     if (global_browser == false){
-        console.log('enetered', global_browser)
         global_browser = await puppeteer.launch({ headless: false })
-    }
-       
-    console.log(url)
+    } 
     const page = await global_browser.newPage();
-    await page.goto(url);
+    await page.goto(`https://www.youtube.com/embed/${id}?autoplay=1`);
 
     await page.click('.ytp-subtitles-button')
     let listener = new Promise((res)=>{
@@ -28,6 +26,7 @@ async function func(url){
     })
     await listener;
     await page.close();
+
     try{
         const response = await fetch(captionUrl);
         const data = await response.json()
@@ -39,12 +38,9 @@ async function func(url){
                 time: caption.tStartMs,
                 text: JSON.stringify(caption.segs)
             }
-            captions_data.push(word)
+            captions_data.push(word);
         });
-        let datas = JSON.stringify(captions_data)
-        fs.appendFile('largeTimeFrame.json', datas,  (err) => {
-            console.log(err);
-        })
+        
         return captions_data
     }
     catch(err){

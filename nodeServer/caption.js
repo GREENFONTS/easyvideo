@@ -1,23 +1,15 @@
 
-function captionFilter(data, word){
-    console.log(word)
-    let captions = data
-    let filtered_captions = []
+ function captionFilter(data, word){
+    let captions = data 
     if(captions != undefined){
-    captions.filter(caption => {
-        if(caption.tStart == 0){
-            caption.text = ""
-        }
-        if(caption.text.includes(word)){
-             filtered_captions.push(caption)
-        }
-    })
-    if(filtered_captions.length == 0){
-        return null
-    }
-    else{
-        return filtered_captions
-    }
+   let filtered_captions =  captions.filter(caption => {
+       if(caption.text != undefined){
+        return caption.text.includes(word)
+       }          
+        
+   })
+    return filtered_captions
+
 }
 }
 

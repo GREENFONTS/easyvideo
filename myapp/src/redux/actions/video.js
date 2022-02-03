@@ -1,19 +1,13 @@
 import { GENERATE_VIDEO_DATA } from "./actionTypes";
 
-export const generateVideoData = (url) => async (dispatch) => {
-  console.log(url)
- 
-  let data = {}
-  let payload = {
-    url
-  }
+export const generateVideoData = (id) => async (dispatch) => {
+
+  let data;
+  
 try{
-  let response = await fetch('http://localhost:4000', {
-    method: "POST",
-    body: JSON.stringify(payload),
-    headers: {  "Content-type": "application/json; charset=UTF-8"}
-  });
-  data = {msg: 'success'}
+  let response = await fetch(`http://localhost:4000/video/${id}`);
+  let data = await response.json();
+  console.log(data)
 }
 catch (err) {
   data = {msg: 'Error in request'}

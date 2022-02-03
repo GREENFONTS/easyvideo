@@ -1,6 +1,6 @@
 import { FETCH_CAPTIONS } from "./actionTypes";
 
-export const getCaptions = (id, word) => (dispatch) => {
+export const getCaptions = (word) => (dispatch) => {
   let caption_data = []; 
  try{
     fetch(`http://localhost:4000/${word}`)
@@ -10,8 +10,7 @@ export const getCaptions = (id, word) => (dispatch) => {
         caption_data.push(element)
       });
     }
-    ));    
-
+    ));   
  }
 
  catch(err){

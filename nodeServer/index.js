@@ -15,11 +15,11 @@ let url = ''
 let result;
 
 
-app.post('/', async (req, res) => {
-  url = req.body.url
+app.get('/video/:id', async (req, res) => {
+  id = req.params.id
   try{
-    result = await func(url)
-    res.status(200).send('success')
+    result = await func(id)
+    res.status(200).send(result)
   }
   catch(err){
     throw err
@@ -30,7 +30,6 @@ app.get('/:id', async (req, res) => {
 
   try{
     let captions = await captionFilter(result, word)
-    console.log(captions)
     res.send(captions);
   }
   catch(err) {
