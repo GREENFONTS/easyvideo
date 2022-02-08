@@ -10,6 +10,7 @@ import YouTubeIframeLoader from 'youtube-iframe';
 import Header from './components/header';
 import Footer from './components/Footer';
 import Layout from './components/layout';
+import url from './config/config';
 
 function App(props) {
   const [url, setUrl] = useState('');
@@ -36,7 +37,7 @@ function App(props) {
         width: '100%',
         autoplay: 1,
         start: 0,
-        host: 'https://www.youtube-nocookie.com'
+        host: url,
     })
     setplayerInst(player)  
     })  
@@ -104,7 +105,7 @@ async function fetchCaption(){
       }
     }
 else{
-  let response = await fetch(`http://localhost:4000/${word}`)  
+  let response = await fetch(`${url}/${word}`)  
   console.log('fetch') 
    datas = await response.json()
       datas.map((ele) => {
@@ -127,7 +128,7 @@ const getVideo = async () => {
     console.log(video)
     if(video[0].caption.length === 0){
       if(video[0].caption === "" || video[0].caption.length === 0){
-        let response = await fetch(`http://localhost:4000/video/${url_string[1]}`);
+        let response = await fetch(`${url}/video/${url_string[1]}`);
         let data = await response.json() 
       
       user.history.map((ele) => {
