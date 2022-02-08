@@ -10,7 +10,7 @@ import YouTubeIframeLoader from 'youtube-iframe';
 import Header from './components/header';
 import Footer from './components/Footer';
 import Layout from './components/layout';
-import url from './config/config';
+import backendUrl from './config/config';
 
 function App(props) {
   const [url, setUrl] = useState('');
@@ -105,7 +105,7 @@ async function fetchCaption(){
       }
     }
 else{
-  let response = await fetch(`${url}/${word}`)  
+  let response = await fetch(`${backendUrl}/${word}`)  
   console.log('fetch') 
    datas = await response.json()
       datas.map((ele) => {
@@ -128,7 +128,7 @@ const getVideo = async () => {
     console.log(video)
     if(video[0].caption.length === 0){
       if(video[0].caption === "" || video[0].caption.length === 0){
-        let response = await fetch(`${url}/video/${url_string[1]}`);
+        let response = await fetch(`${backendUrl}/video/${url_string[1]}`);
         let data = await response.json() 
       
       user.history.map((ele) => {

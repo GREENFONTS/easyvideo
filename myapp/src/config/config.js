@@ -1,1 +1,1 @@
-export  const url = 'https://easyvideosearch.herokuapp.com';
+export  const backendUrl = 'https://easyvideosearch.herokuapp.com';
