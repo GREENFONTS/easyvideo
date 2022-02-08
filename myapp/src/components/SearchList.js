@@ -1,24 +1,26 @@
 import React from 'react';
+import { Flex, Text} from '@chakra-ui/react';
 
 function SearchList(props){
+    console.log('enetered searchlist')
     return (
-        <div>{
+        <>{
                props.data.map((ele) => {
                     return(
-                        <div key={props.data.indexOf(ele) + 1} className='row p-3' style={{"fontSize": '0px'}} onClick={() => {
+                        <Flex mt={3} w='full' key={props.data.indexOf(ele) + 1} onClick={() => {
                             props.getIndex(props.data.indexOf(ele))
                             props.setSeekClick(true)
                         }
                         }>
-                            <iframe className='col-6' type="text/html" width="100" height="100" title='Youtube Video'
+                            <iframe type="text/html" width="300" height="150" title='Youtube Video' aria-controls='false'
                         src={`https://www.youtube.com/embed/${props.id}?start=${Math.ceil(ele.time)}`}
                         ></iframe>
-                            <h1 className='col-6 justify-content'>Frame {props.data.indexOf(ele)}</h1>                        
-                        </div>
+                            <Text >Frame {props.data.indexOf(ele)}</Text>                        
+                        </Flex>
                     )
                 })
             }
-        </div>
+        </>
     )
 }
 export default SearchList;

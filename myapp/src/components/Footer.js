@@ -1,4 +1,4 @@
-import { Box, Flex, Icon, Image, Text, useColorMode, useColorModeValue, useMediaQuery } from '@chakra-ui/react'
+import { Box, Flex, Icon, Image, Text, useColorModeValue} from '@chakra-ui/react'
 import { FaInstagram } from 'react-icons/fa'
 import { BsTwitter, BsLinkedin } from 'react-icons/bs'
 import React from 'react'
@@ -13,7 +13,7 @@ const Footer = () => {
     const bgTwitter = useColorModeValue('#1DA1F2', 'white')
 
     return (
-        <Flex px='4px' py='6px' h='30px' w='full' bg={bgColor} borderTop='1px' borderColor='gray.200' boxShadow='sm' align="center" justify="space-between" >
+        <Flex px='4px' py='6px' h='30px' w='full' bg={bgColor} borderTop='1px' borderColor='gray.200' boxShadow='sm' align="center" justify="space-between" position='sticky'>
             <Flex paddingLeft='10px' align="center" justify="center">
                 <Flex align="center" justify="center">
                     <Text textAlign='center' paddingRight='10px' fontSize={{ base: '10px', md: '12px', lg: '14px' }}>© 2022</Text>
