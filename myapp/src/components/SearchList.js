@@ -12,7 +12,7 @@ function SearchList(props){
                             props.setSeekClick(true)
                         }
                         }>
-                            <iframe type="text/html" width="300" height="150" title='Youtube Video' aria-controls='false'
+                            <iframe type="text/html" width="300" height="150" title='Youtube Video' 
                         src={`https://www.youtube.com/embed/${props.id}?start=${Math.ceil(ele.time)}`}
                         ></iframe>
                             <Text >Frame {props.data.indexOf(ele)}</Text>                        

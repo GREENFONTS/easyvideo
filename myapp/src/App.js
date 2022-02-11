@@ -1,23 +1,21 @@
 import './App.css';
 import React from 'react';
 import { useState, useEffect } from 'react';
-import {Route, BrowserRouter as Router, Routes} from 'react-router-dom';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { generateVideoData } from "./redux/actions/video";
-import { getCaptions} from './redux/actions/captions';
+import {BrowserRouter as Router} from 'react-router-dom';
 import YouTubeIframeLoader from 'youtube-iframe';
 import Header from './components/header';
 import Footer from './components/Footer';
 import Layout from './components/layout';
-import backendUrl from './config/config';
+import { backendUrl } from './config/config';
+import AlertHandler from './components/alert';
 
-function App(props) {
+function App() {
   const [url, setUrl] = useState('');
   const [id, setid] = useState(null);
   const [word, setWord] = useState('');
   const [data, setData] = useState([]);
-  const [wordSearch, setwordSearch] = useState(false)
+  const [wordSearch, setwordSearch] = useState(false);
+  const [Message, setMessage] = useState(null)
   const [count, setCount] = useState(0);
   const [seekClick, setSeekClick] = useState(false);
   const [playerInst, setplayerInst] = useState();
@@ -33,7 +31,7 @@ function App(props) {
   useEffect(()=>{
     YouTubeIframeLoader.load((YT) => {
      let player = new YT.Player('player', {
-        height: '500',
+        height: 'inherit',
         width: '100%',
         autoplay: 1,
         start: 0,
@@ -58,7 +56,7 @@ function App(props) {
             return element.videoId === id
           });
           if(id_check.length < 1){
-            user.history.push({videoId: id, caption: ''}) 
+            user.history.push({videoId: id, caption: []}) 
           localStorage.setItem('user', JSON.stringify(user))
           }
 
@@ -93,7 +91,7 @@ async function fetchCaption(){
   if (captions.length !== 0){
 
   datas = captions.filter(caption => {
-      if(caption.text != undefined){
+      if(caption.text !== undefined){
        return caption.text.includes(word)
       }  
     })
@@ -105,8 +103,7 @@ async function fetchCaption(){
       }
     }
 else{
-  let response = await fetch(`${backendUrl}/${word}`)  
-  console.log('fetch') 
+  let response = await fetch(`${backendUrl}/${word}`);  
    datas = await response.json()
       datas.map((ele) => {
         ele.time = (ele.time / 1000) - 2
@@ -118,17 +115,34 @@ else{
 
 
 const getVideo = async () => {
-  
-    let url_string = url.split('=')
-    setid(url_string[1])
+  let url_string;
+  function extractUrl(url){
+    if(url.includes('youtube.com')){
+     url_string = url.split('=')
+     return true
+    }
+    if(url.includes('youtu.be')){
+      url_string = url.split('.be/')
+      return true
+    }
+    
+  } 
+  if(extractUrl(url)){
+    console.log(url_string)
+    if (url_string[1].length === 11){
+        setid(url_string[1])
+        
     let user = JSON.parse(localStorage.getItem('user'))
     let video = user.history.filter((ele) => {
       return ele.videoId === url_string[1]
     })
-    console.log(video)
+
+    if(video.length !== 0){
     if(video[0].caption.length === 0){
       if(video[0].caption === "" || video[0].caption.length === 0){
+        console.log('reached')
         let response = await fetch(`${backendUrl}/video/${url_string[1]}`);
+        console.log(response)
         let data = await response.json() 
       
       user.history.map((ele) => {
@@ -139,7 +153,18 @@ const getVideo = async () => {
       })
       }   
     }
-     
+  }
+      }
+      else{
+        setMessage('Youtube video ID is not valid')
+      }
+    
+    }
+    else{
+      setMessage('This is not a youtube link')
+    }
+  
+    
   }
 
   const getIndex = (num) => {
@@ -151,11 +176,9 @@ const getVideo = async () => {
       <>
       <Router>
         <Header />
-        <Layout  setUrl={setUrl} id={id} getVideo={getVideo} setWord={setWord} fetchCaption={fetchCaption} wordSearch={wordSearch}
+        <AlertHandler message={Message} setMessage={setMessage}/>
+        <Layout  setUrl={setUrl} getVideo={getVideo} setWord={setWord} fetchCaption={fetchCaption} wordSearch={wordSearch}
         data={data} id={id} setSeekClick={setSeekClick} getIndex={getIndex} seekClick={seekClick} setwordSearch={setwordSearch}/>
-        {/* <Routes>
-
-        </Routes> */}
         <Footer />
       </Router>
       
@@ -164,16 +187,4 @@ const getVideo = async () => {
   );
 }
 
-App.prototype = {
-  captions : PropTypes.array.isRequired,
-  generateVideoData : PropTypes.func.isRequired,
-  getCaptions : PropTypes.func.isRequired
-}
-
-const mapStateToProps =  state => ({
-  token: state.token,
-  video: state.video,
-  caption : state.caption
-})
-
-export default connect(mapStateToProps, {generateVideoData, getCaptions})(App);
+export default App;

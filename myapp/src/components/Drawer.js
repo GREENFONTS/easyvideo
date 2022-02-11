@@ -9,12 +9,10 @@ import { FaInstagram } from 'react-icons/fa';
 import { BsLinkedin, BsTwitter } from 'react-icons/bs';
 import Fade from 'react-reveal/Fade';
 
-
 const DrawerComponent = (props) => {
 
     const bgColor = useColorModeValue('themeLight.bg', 'themeDark.bgBody')
     const logoColor = useColorModeValue('red.500', 'red.500');
-    const textColor = useColorModeValue('themeLight.logo', 'themeDark.logo');
     const bgInstagram = useColorModeValue('red', 'white');
     const bgGithub = useColorModeValue('black', 'white');
     const bgLinkedIn = useColorModeValue('#0077b5', 'white');
@@ -51,11 +49,6 @@ const DrawerComponent = (props) => {
                 </DrawerHeader>
 
                 <DrawerBody>
-                    <Fade top>
-                        <Box mb='10px' _hover={{ transform: 'scale(1.02)', cursor: "pointer" }}>
-                            <Link as={ReactLink} to='/history' _focus={{ outline: 'none' }} _hover={{ textDecoration: 'none' }} fontWeight='500'>History</Link>
-                        </Box>
-                    </Fade>
                     <Fade right>
                         <Link href='https://www.youtube.com' target='_blank' mb='10px' _hover={{ transform: 'scale(1.02)', cursor: "pointer" }} fontWeight='500' >Youtube</Link>
                     </Fade>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link as ReactLink } from "react-router-dom";
-import { Box, Flex, HStack, Icon, Image, Link, LinkBox, Text, VStack, LinkOverlay, useDisclosure, useMediaQuery, } from '@chakra-ui/react';
+import { Box, Flex, HStack, Icon, Link, LinkBox, Text, VStack, LinkOverlay, useDisclosure, useMediaQuery, } from '@chakra-ui/react';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import { RiYoutubeFill } from 'react-icons/ri';
 import { BiGitBranch, BiMoon } from 'react-icons/bi';
@@ -11,11 +11,9 @@ import DrawerComponent from './Drawer';
 
 const Header = () => {
 
-    const [isLargerThan770] = useMediaQuery('(min-width: 770px)')
     const [isLargerThan500] = useMediaQuery('(min-width: 500px)')
     const [isLargerThan400] = useMediaQuery('(min-width: 400px)')
     const { toggleColorMode } = useColorMode();
-    const color = useColorModeValue('white', 'gray.800')
     const bgColor = useColorModeValue('themeLight.bg', 'themeDark.bgBody')
     const iconColor = useColorModeValue('themeLight.icon', 'themeLight.icon');
     const logoColor = useColorModeValue('red.500', 'red.500');
@@ -40,7 +38,6 @@ const Header = () => {
             </Box>
             <Flex h='full' w='30%' align="center" justify="space-between">
                 <Flex w='90%' align="center" justify="space-between">
-                    {isLargerThan770 && <Link as={ReactLink} to='/history' _focus={{ outline: 'none' }} _hover={{ textDecoration: 'none', transform: 'scale(1.05)' }} fontWeight='500' fontSize={{ base: '12px', md: '14px', lg: '16px' }}>History</Link>}
                     {isLargerThan400 && <Link  href='https://www.youtube.com/' target="_blank" _hover={{ transform: 'scale(1.05)', cursor: "pointer" }} fontWeight='500' fontSize={{ base: '12px', md: '14px', lg: '16px' }} >Youtube </Link>}
                     {isLargerThan500 && <Link mt={2} href='https://github.com/GREENFONTS/easyvideo' isExternal _focus={{ outline: 'none' }}><Icon as={BiGitBranch} w={{ base: '18px', md: '20px', lg: '22px' }} h={{ base: '18px', md: '20px', lg: '22px' }} color={iconColor} _hover={{ transform: 'scale(1.15)', cursor: "pointer" }} /></Link>}
                     <Icon as={icon} onClick={toggleColorMode} mx={10} w={{ base: '18px', md: '20px', lg: '22px' }} h={{ base: '18px', md: '20px', lg: '22px' }} color={iconColor} _hover={{ transform: 'scale(1.15)', cursor: "pointer" }} />
