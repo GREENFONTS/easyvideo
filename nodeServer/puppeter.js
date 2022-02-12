@@ -1,14 +1,12 @@
 const puppeteer = require('puppeteer');
 const fetch = require('node-fetch');
-const fs = require('fs');
-const captionFilter = require('./caption');
 
-let global_browser = false
 async function func(id){
     let captionUrl = ''
-    if (global_browser == false){
-        global_browser = await puppeteer.launch({ headless: false })
-    } 
+    try{
+     const global_browser = await puppeteer.launch({  'args' : [
+            '--no-sandbox', '--single-process']})
+
     const page = await global_browser.newPage();
     await page.goto(`https://www.youtube.com/embed/${id}?autoplay=1`);
 
@@ -25,8 +23,11 @@ async function func(id){
         
     })
     await listener;
-    await page.close();
-
+    await global_browser.close();
+    }
+    catch(err){
+        console.log(err)
+    }
     try{
         const response = await fetch(captionUrl);
         const data = await response.json()

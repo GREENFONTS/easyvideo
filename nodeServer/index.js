@@ -22,7 +22,7 @@ app.get('/video/:id', async (req, res) => {
     res.status(200).send(result)
   }
   catch(err){
-    throw err
+    console.log(err) 
   }
 })
 app.get('/:id', async (req, res) => {
@@ -33,7 +33,7 @@ app.get('/:id', async (req, res) => {
     res.send(captions);
   }
   catch(err) {
-    throw err
+    console.log(err)
   }
   
   
