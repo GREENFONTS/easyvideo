@@ -74,7 +74,4 @@ app.get('/job/:jobId', async (req, res) => {
   }
 });
 
-// You can listen to global events to get notified when jobs are processed
-
-
 app.listen(PORT, () => console.log(`Server started! at port ${PORT}`));
