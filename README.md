@@ -13,6 +13,8 @@ Thanks to [Samson Amugo] & Cryil Chukwuebuka for their assistance during the pro
 - [React-Reveal](https://wwww.react-reveal.com/)
 - [ExpressJs](https://expressjs.com/)
 - [Puppeter](https://www.npmjs.com/package/puppeteer)
+- [Redis](https://redis.io/)
+- [Bull](https://www.npmjs.com/package/bull)
 - [Netlify](https://www.netlify.com/)
 
 Live Link(https://wordsea.netlify.app/) to the Project

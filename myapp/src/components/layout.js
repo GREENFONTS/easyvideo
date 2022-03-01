@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Flex, Icon, Button, Center, Divider, Image, Text, Input } from '@chakra-ui/react';
+import { Box, Flex, Icon, Button, Center, Divider, Image, Text, Input, Spinner } from '@chakra-ui/react';
 import { RiSearch2Line } from 'react-icons/ri';
 import { useColorModeValue } from '@chakra-ui/react';
 import Bounce from 'react-reveal/Bounce';
@@ -13,17 +13,21 @@ const Layout = (props) => {
     let displayProp = false
     let dataProp = false
     let wordSearchProp = false;
+    let spinnerProp = false
     if(props.id === null || undefined){
-        displayProp = true
+        displayProp = true        
     }
+    if(!props.videoState){
+        spinnerProp = true
+    }
+    
     if(props.wordSearch){
         wordSearchProp = true
         if(props.data.length > 0){
             dataProp = true
         }
     }
-    
-    
+   
 
     return (
         <Box display={{ md: 'flex'}} px={{ base: '24px', md: '27px', lg: '30px' }} py={4}  bg={bgColor} align="center" >
@@ -32,7 +36,9 @@ const Layout = (props) => {
                 <Box>
                     <Flex align='center' justify='center'>
                         <Input placeholder='Youtube video url' borderRadius='none' width="70%" h={{base: '25px', md: '35px', lg: '40px'}} fontSize={{base: '13px', md: '18px', lg: '23px'}} onChange={(e) => props.setUrl(e.target.value)} required/>
-                        <Button onClick={(e) => props.getVideo()} borderRadius='none' bg={searchColor} width='70px' align='center' py={1} h={{ base: '25px', md: '35px', lg: '40px' }} _hover={{ bg: 'gray.400' }}>
+                        <Button onClick={(e) => {
+                            props.getVideo()
+                            props.setVideoClick(true)}} borderRadius='none' bg={searchColor} width='70px' align='center' py={1} h={{ base: '25px', md: '35px', lg: '40px' }} _hover={{ bg: 'gray.400' }}>
                             <Icon as={RiSearch2Line} w={{ base: '29px', md: '32px', lg: '35px' }} h={{ base: '20px', md: '24px', lg: '27px' }} />
                         </Button>
                     </Flex>
@@ -71,7 +77,18 @@ const Layout = (props) => {
                 </Box>
                 : 
             
-                 <Box >
+                <Box >
+                    {spinnerProp ? <Box><Spinner
+                                    thickness='4px'
+                                    speed='0.65s'
+                                    emptyColor='gray.200'
+                                    color='red.500'
+                                    size='xl' 
+                                    label="Please wait...Searching for Captions"/>
+                                    <Box align='center'><Text>Please wait...</Text>
+                                    <Text>Searching for Captions...</Text></Box>
+                                    </Box>
+                                    :
                     <Flex  align='center' justify='center'>
                         <Input placeholder='Word to search' borderRadius='none' width="70%" h={{base: '25px', md: '35px', lg: '40px'}} fontSize={{base: '13px', md: '18px', lg: '23px'}} onChange={(e) => props.setWord(e.target.value)} required/>
                         <Button onClick={(e) =>{
@@ -79,11 +96,13 @@ const Layout = (props) => {
                              props.fetchCaption() }} borderRadius='none' bg={searchColor} width='70px' align='center' py={1} h={{ base: '25px', md: '35px', lg: '40px' }} _hover={{ bg: 'gray.400' }}>
                             <Icon as={RiSearch2Line} w={{ base: '29px', md: '32px', lg: '35px' }} h={{ base: '20px', md: '24px', lg: '27px' }} />
                         </Button>
-                    </Flex>
+                    </Flex> }
 
                     { wordSearchProp ? <>
                         {dataProp ? 
-                        <SearchList data={props.data} id={props.id} setSeekClick={props.setSeekClick} getIndex={props.getIndex}/> : 
+                         <SearchList data={props.data} id={props.id} setSeekClick={props.setSeekClick} getIndex={props.getIndex}/> 
+                        
+                        : 
                     <Box>
                      
                      <>
