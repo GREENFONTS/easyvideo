@@ -10,17 +10,30 @@ let REDIS_URL = process.env.REDIS_URL || 'redis://127.0.0.1:6379';
 
 let app = express();
 
-app.use(cors());
-app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Create / Connect to a named work queue
-let workQueue = new Queue('work', {
-  redis: REDIS_URL
+app.use((req, res, next) => {
+  res.append('Access-Control-Allow-Origin', 'https://localhost:3000');
+  res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.append('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
+// for production
+// redis://:p50ad4f338c54668a454a16b525cbb111631f1251bae387b41b2093cfa368539d@ec2-34-202-94-249.compute-1.amazonaws.com:32540
+// { redis: { tls: { rejectUnauthorized: false, requestCert: true,  }, maxRetriesPerRequest : 20,  }
+//for development testing
+// {
+//   redis: 'redis://127.0.0.1:6379'
+// }  
+// Create / Connect to a named work queue+*
+let workQueue = new Queue('work', 'redis://:p50ad4f338c54668a454a16b525cbb111631f1251bae387b41b2093cfa368539d@ec2-34-202-94-249.compute-1.amazonaws.com:32540',
+{ redis: { tls: { rejectUnauthorized: false, requestCert: true,  }, maxRetriesPerRequest : 20,  } 
 });
 
-
+app.get('/', (req, res) => {
+  res.json({url: REDIS_URL, msg: 'working', queue: workQueue.name})
+})
 // Kick off a new job by adding it to the work queue
 app.get('/video/:id', async (req, res) => {
  
@@ -36,21 +49,27 @@ app.get('/job/checkJob/:url', async (req,res) => {
   let jobs = await workQueue.getJobs();
   let jobList = []
   let ids = []
+  let checkedJob;
+  if(jobs.length > 0){
   jobs.forEach((ele) => {
-    jobList.push({url: ele.data.url, id: ele.id})
+    jobList.push({url: ele.data.url, id: ele.id, datas: ele.returnvalue})
   })
-  
-  let checkedJobs = jobList.filter((job) => job.url == url)
-  checkedJobs.forEach(job => ids.push(job.id))
-  let checkedJob = checkedJobs.filter(job => job.id == Math.max(...ids))
-  
-  if(checkedJob.length != 0){
-    let job = await workQueue.getJob(checkedJob[0].id)
-  checkedJob[0].state = await job.getState()  
-  res.send(checkedJob[0])
+}
+   let checkedJobs = jobList.filter((job) => job.url == url)
+   if(checkedJobs.length > 0){
+     checkedJobs.forEach(job => ids.push(job.id))
+     checkedJob = checkedJobs.filter(job => job.id == Math.max(...ids))
+     if(checkedJob.length != 0){
+       let job = await workQueue.getJob(checkedJob[0].id)
+     checkedJob[0].state = await job.getState()  
+     res.status(200).json({data: checkedJob[0]})
+     }
+     else {
+       res.status(200).json({data: checkedJob})
+     }
   }
   else {
-    res.send(checkedJob)
+    res.status(200).json({data: checkedJobs})
   }
   })
 
@@ -59,19 +78,19 @@ app.get('/job/checkJob/:url', async (req,res) => {
 app.get('/job/:jobId', async (req, res) => {
 
   let id = req.params.jobId;
-  let job = await workQueue.getJob(id);
-  
-  if (job === null) {
-    res.status(404).end();
-  } else {
-    let state = await job.getState();
-    let progress = job._progress;
-    let reason = job.failedReason;
-    let datas = job.returnvalue
-   
-  res.json({ id, state, progress, reason, datas });
-    
+   let job = await workQueue.getJob(id);
+     if (job === null) {
+      res.json({state: 'id not found'});
+    } else {
+      let state = await job.getState();
+      let progress = job._progress;
+      let reason = job.failedReason;
+      let datas = job.returnvalue
+      let url = job.data.url
+     
+    res.json({ id, url, state, progress, reason, datas });
   }
+
 });
 
 app.listen(PORT, () => console.log(`Server started! at port ${PORT}`));
