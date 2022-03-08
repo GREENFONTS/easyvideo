@@ -1,3 +1,3 @@
-export const backendUrl = 'https://easyvideosearch.herokuapp.com';
+export const backendUrl = 'http://localhost:5000';
 //https://easyvideosearch.herokuapp.com/
 //http://localhost:5000

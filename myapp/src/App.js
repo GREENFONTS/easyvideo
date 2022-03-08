@@ -75,6 +75,12 @@ function App() {
   }, [videoclick, id])
 
   useEffect(() => {
+    setData([])
+    setwordSearch(false)
+    setWord('')
+  },[id])
+
+  useEffect(() => {
     function onPlayerReady(playerInst){
       if( playerInst !== undefined && seekClick){
         playerInst.seekTo(data[count].time)      
