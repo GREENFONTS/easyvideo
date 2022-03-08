@@ -72,7 +72,7 @@ function App() {
       }
       onPlayerReady(playerInst)
 
-  }, [videoclick])
+  }, [videoclick, id])
 
   useEffect(() => {
     function onPlayerReady(playerInst){
