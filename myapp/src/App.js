@@ -105,7 +105,7 @@ const fetchCaption = async () => {
   
     datas = captions.filter(caption => {
         if(caption.text !== undefined){
-         return caption.text.includes(word)
+         return caption.text.includes(word.toLowerCase())
         }  
       })
   
